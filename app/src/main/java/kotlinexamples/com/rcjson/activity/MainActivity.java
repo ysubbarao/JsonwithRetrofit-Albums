@@ -1,6 +1,8 @@
 package kotlinexamples.com.rcjson.activity;
 
+import android.app.FragmentManager;
 import android.content.Context;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kotlinexamples.com.rcjson.R;
+import kotlinexamples.com.rcjson.fragment.AlbumFragment;
 import kotlinexamples.com.rcjson.model.UserDetails;
 import kotlinexamples.com.rcjson.adapter.UserRCAdapter;
 import kotlinexamples.com.rcjson.networkcalls.APIClient;
@@ -24,14 +27,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = "message";
-    Context context;
 
-
-    RecyclerView recyclerView;
-    UserRCAdapter userRCAdapter;
-    RecyclerView.LayoutManager layoutManager;
-    APIInterface apiInterface;
-    private List<UserDetails> userList = new ArrayList<>();
 
 
     @Override
@@ -40,46 +36,26 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate");
 
-        //initiaterecyclerview
-        initiateRecyclerview();
-
-        // make call async tasks
-        makeServiceCalls();
+        getFragmentInit();
 
        /*DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL );
        recyclerView.addItemDecoration(dividerItemDecoration);*/
 
     }
 
-    private void makeServiceCalls() {
-        apiInterface = APIClient.getApiClient().create(APIInterface.class);
+    private void getFragmentInit() {
 
+        AlbumFragment albumFragment = new AlbumFragment();
 
-        Call<ArrayList<UserDetails>> call = apiInterface.getUserDetails();
-        // Call<UserDetails> call = apiInterface.getUserDetails();
-        call.enqueue(new Callback<ArrayList<UserDetails>>() {
-            @Override
-            public void onResponse(Call<ArrayList<UserDetails>> call, Response<ArrayList<UserDetails>> response) {
-               // userList.addAll(response.body().bookstore);
-                userList.addAll(response.body());
-                Log.d(TAG, "userList values " + userList.toString());
-                userRCAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<UserDetails>> call, Throwable t) {
-                Log.d(TAG, "onfailure " + t.getLocalizedMessage());
-            }
-        });
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager()
+                .beginTransaction();
+        fragmentTransaction.add(R.id.framlayout,albumFragment);
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        fragmentTransaction.commit();
     }
 
-    private void initiateRecyclerview() {
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(layoutManager);
-        userRCAdapter = new UserRCAdapter(MainActivity.this, userList);
-        recyclerView.setAdapter(userRCAdapter);
-    }
+
+
+
 
 }

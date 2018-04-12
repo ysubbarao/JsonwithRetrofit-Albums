@@ -27,17 +27,17 @@ public class UserRCAdapter extends RecyclerView.Adapter<UserRCViewHolder> {
     private List<UserDetails> userList = new ArrayList<>();
 
 
-    public UserRCAdapter(MainActivity mainActivity, List<UserDetails> userList) {
+    public UserRCAdapter(Context context, List<UserDetails> userList) {
+        this.context = context;
         this.userList = userList;
-        this.mainActivity = mainActivity;
-        // layoutInflater.from(mainActivity);
+
 
     }
 
     @Override
     public UserRCViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(mainActivity).inflate(R.layout.albumdetails, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.albumdetails,parent,false);
         UserRCViewHolder userRCViewHolder = new UserRCViewHolder(view);
 
         Log.d(TAG, "userRCViewHolder");
