@@ -1,10 +1,10 @@
-package kotlinexamples.com.rcjson;
+package kotlinexamples.com.rcjson.networkcalls;
 
 import java.util.ArrayList;
 
+import kotlinexamples.com.rcjson.model.UserDetails;
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
 
 /**
  * Created by subbaraoy on 4/5/18.

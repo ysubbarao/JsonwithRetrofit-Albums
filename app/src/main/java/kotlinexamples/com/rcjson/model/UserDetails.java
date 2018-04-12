@@ -1,4 +1,4 @@
-package kotlinexamples.com.rcjson;
+package kotlinexamples.com.rcjson.model;
 
 import com.google.gson.annotations.SerializedName;
 

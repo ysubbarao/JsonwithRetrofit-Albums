@@ -1,37 +1,22 @@
-package kotlinexamples.com.rcjson;
+package kotlinexamples.com.rcjson.activity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 
 import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import kotlinexamples.com.rcjson.R;
+import kotlinexamples.com.rcjson.model.UserDetails;
+import kotlinexamples.com.rcjson.adapter.UserRCAdapter;
+import kotlinexamples.com.rcjson.networkcalls.APIClient;
+import kotlinexamples.com.rcjson.networkcalls.APIInterface;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -55,29 +40,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate");
 
+        //initiaterecyclerview
+        initiateRecyclerview();
+
         // make call async tasks
+        makeServiceCalls();
 
+       /*DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL );
+       recyclerView.addItemDecoration(dividerItemDecoration);*/
 
+    }
 
-
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
-        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(layoutManager);
-        userRCAdapter = new UserRCAdapter(MainActivity.this, userList);
-
-
-       DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.HORIZONTAL );
-       recyclerView.addItemDecoration(dividerItemDecoration);
-
-
-        recyclerView.setAdapter(userRCAdapter);
-
+    private void makeServiceCalls() {
         apiInterface = APIClient.getApiClient().create(APIInterface.class);
 
 
         Call<ArrayList<UserDetails>> call = apiInterface.getUserDetails();
-       // Call<UserDetails> call = apiInterface.getUserDetails();
+        // Call<UserDetails> call = apiInterface.getUserDetails();
         call.enqueue(new Callback<ArrayList<UserDetails>>() {
             @Override
             public void onResponse(Call<ArrayList<UserDetails>> call, Response<ArrayList<UserDetails>> response) {
@@ -85,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
                 userList.addAll(response.body());
                 Log.d(TAG, "userList values " + userList.toString());
                 userRCAdapter.notifyDataSetChanged();
-
-
             }
 
             @Override
@@ -94,7 +71,15 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "onfailure " + t.getLocalizedMessage());
             }
         });
+    }
 
+    private void initiateRecyclerview() {
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(layoutManager);
+        userRCAdapter = new UserRCAdapter(MainActivity.this, userList);
+        recyclerView.setAdapter(userRCAdapter);
     }
 
 }

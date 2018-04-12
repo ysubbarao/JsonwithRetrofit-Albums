@@ -1,4 +1,4 @@
-package kotlinexamples.com.rcjson;
+package kotlinexamples.com.rcjson.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +9,10 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import kotlinexamples.com.rcjson.R;
+import kotlinexamples.com.rcjson.activity.MainActivity;
+import kotlinexamples.com.rcjson.model.UserDetails;
 
 /**
  * Created by subbaraoy on 4/4/18.
@@ -23,20 +27,20 @@ public class UserRCAdapter extends RecyclerView.Adapter<UserRCViewHolder> {
     private List<UserDetails> userList = new ArrayList<>();
 
 
-    public UserRCAdapter(MainActivity mainActivity,List<UserDetails> userList){
+    public UserRCAdapter(MainActivity mainActivity, List<UserDetails> userList) {
         this.userList = userList;
         this.mainActivity = mainActivity;
-       // layoutInflater.from(mainActivity);
+        // layoutInflater.from(mainActivity);
 
     }
 
     @Override
     public UserRCViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(mainActivity).inflate(R.layout.albumdetails,parent,false);
+        View view = LayoutInflater.from(mainActivity).inflate(R.layout.albumdetails, parent, false);
         UserRCViewHolder userRCViewHolder = new UserRCViewHolder(view);
 
-        Log.d(TAG,"userRCViewHolder");
+        Log.d(TAG, "userRCViewHolder");
 
         return userRCViewHolder;
     }

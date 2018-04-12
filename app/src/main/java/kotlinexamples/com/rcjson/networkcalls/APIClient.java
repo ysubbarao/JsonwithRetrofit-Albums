@@ -1,4 +1,4 @@
-package kotlinexamples.com.rcjson;
+package kotlinexamples.com.rcjson.networkcalls;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
